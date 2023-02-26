@@ -1,8 +1,5 @@
-array:
-	g++ -std=c++2a array.cpp -o array.app && ./array.app
-
-vector:
-	g++ -std=c++2a vector.cpp -o vector.app && ./vector.app
+main: main.cpp
+	g++ -std=c++2a main.cpp -o main.app && ./main.app
 
 clean:
 	rm -rf *.app
