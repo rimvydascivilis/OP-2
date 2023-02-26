@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <random>
 #include <vector>
+#include <fstream>
+#include <sstream>
 
 using std::cin;
 using std::cout;
@@ -22,17 +24,23 @@ using std::mt19937;
 using std::uniform_int_distribution;
 using std::accumulate;
 using std::vector;
+using std::ifstream;
+using std::ofstream;
+using std::stringstream;
+using std::stof;
 
 struct Student {
     string name, surname;
-    vector<int> homeworkGrades;
+    vector<float> homeworkGrades;
     int examGrade;
     double finalGradeAverage = 0, finalGradeMedian = 0;
 };
 
-void AddStudents(vector<Student> &students);
+void addStudents(vector<Student> &students);
+void addStudentsFromFile(string fileName, vector<Student> &students);
+void addStudentsFromSTDIN(vector<Student> &students);
 void enterStudentData(Student &student);
 void generateGrades(Student &student);
 void calculateFinalGrade(Student &student);
-void printResults(vector<Student> students);
-void printStudentData(Student student, bool useAverage);
+string getResults(vector<Student> students);
+string getFormatedStudentData(Student student, bool useAverage);
