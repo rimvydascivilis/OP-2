@@ -5,17 +5,18 @@ int main() {
     string results;
 
     addStudents(students);
+    if (students.size() == 0) {
+        cout << "Nera duomenu, rezultatu failas nebus sukurtas" << endl;
+        return 0;
+    }
+    cout << "Skaiciuojami balai..." << endl;
     for (Student &student : students) {
         calculateFinalGrade(student);
     }
+    cout << "Rezultatai surikiuojami..." << endl;
     sort(students.begin(), students.end(), [](Student a, Student b) { return a.surname < b.surname; });
-    
-    results = getResults(students);
-    cout << results;
-
-    ofstream file("rezultatai.txt");
-    file << results;
-    file.close();
+    cout << "Rezultatai isvedami i faila..." << endl;
+    writeResultsToFile(students, "rezultatai.txt");
     
     return 0;
 }
@@ -27,27 +28,60 @@ void addStudents(vector<Student> &students) {
     cin.ignore(numeric_limits<streamsize>::max(),'\n');
 
     if (action == 'f' || action == 'F') {
-        string fileName;
-        cout << "Iveskite failo pavadinima: ";
-        cin >> fileName;
-        addStudentsFromFile(fileName, students);
+        addStudentsFromFile(students);
     } else {
         addStudentsFromSTDIN(students);
     }
 }
 
-void addStudentsFromFile(string fileName, vector<Student> &students) {
-    ifstream file(fileName);
-    if (!file.is_open()) {
-        cout << "Nepavyko atidaryti failo" << endl;
-        exit(1);
+void addStudentsFromFile(vector<Student> &students) {
+    string fileName;
+    ifstream file;
+
+    cout << "Failu sarasas:";
+    fflush(stdout);
+    int exitCode = system("ls -l | awk '{print $9}'");
+
+    if (exitCode != 0) {
+        cout << "Nepavyko nuskaityti failu saraso" << endl;
+        return;
     }
+    
+    while(1) {
+        cout << "Iveskite failo pavadinima, norint iseiti ivesk \"iseiti\": ";
+        cin >> fileName;
+        if (fileName == "iseiti") {
+                exit(0);
+        }
+        try {
+            file.open(fileName);     
+            if (!file.is_open()) {
+                throw invalid_argument("Nepavyko atidaryti failo");
+            }
+            if (file.peek() == ifstream::traits_type::eof()) {
+                throw invalid_argument("Failas tuscias");
+            }
+            break;
+        } catch(const exception& ia) {
+            cout << ia.what() << '\n';
+        }
+    }
+
     cout << "Nuskaitomi studentai is failo..." << endl;
 
-    int currentLine = 1;
+    int currentLine = 0;
     string line;
+    int gradesCount = 0;
 
-    getline(file, line); // Skip first line
+    getline(file, line);
+    stringstream ss(line);
+    string grade;
+    while (ss >> grade) {
+        gradesCount++;
+    }
+    gradesCount -= 2;
+
+
     while (getline(file, line)) {
         currentLine++;
         Student newStudent;
@@ -67,12 +101,16 @@ void addStudentsFromFile(string fileName, vector<Student> &students) {
                     continue;
                 }
                 newStudent.homeworkGrades.push_back(gradeFloat);
-            } catch (const std::invalid_argument& ia) {
+            } catch (const invalid_argument& ia) {
                 cout << "Nepavyko konvertuoti pazymio i skaiciu, pazymys praleidziamas (" << currentLine <<  "eil.)" << endl;
             }
         }
         if (newStudent.homeworkGrades.size() < 2) {
             cout << "Nepavyko nuskaityti pazymiu, studentas praleidziamas (" << currentLine <<  "eil.)" << endl;
+            continue;
+        }
+        if (newStudent.homeworkGrades.size() != gradesCount) {
+            cout << "Nepavyko nuskaityti visu pazymiu ar nesuvesti visi pazymiai, studentas praleidziamas (" << currentLine <<  "eil.)" << endl;
             continue;
         }
 
@@ -81,7 +119,6 @@ void addStudentsFromFile(string fileName, vector<Student> &students) {
         students.push_back(newStudent);
     }
     file.close();
-    cout << "Studentai nuskaityti is failo" << endl;
 }
 
 void addStudentsFromSTDIN(vector<Student> &students) {
@@ -135,7 +172,7 @@ void enterStudentData(Student &student) {
         if (!cin || student.examGrade < 0 || student.examGrade > 10) {
             cout << "Pazymys turi buti nuo 0 iki 10, pakartokite: " << endl;
             cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
             continue;
         }
         break;
@@ -157,18 +194,33 @@ void calculateFinalGrade(Student &student) {
 }
 
 void generateGrades(Student &student) {
+    int gradesToGenerate = 0;
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<int> disGradeCount(1, 10);
     uniform_int_distribution<int> disGrades(0, 10);
+    cout << "Iveskite studento namu darbu pazymiu skaiciu: ";
+    while (1) {
+        cin >> gradesToGenerate;
+        if (!cin) {
+            cout << "Ivedete ne skaiciu, pakartokite: " << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            continue;
+        }
+        if (gradesToGenerate < 0) {
+            cout << "Pazymiu skaicius turi buti nuo 1, pakartokite: " << endl;
+            continue;
+        }
+        break;
+    }
 
-    for (int i = 0; i < disGradeCount(gen); i++) {
+    for (int i = 0; i < gradesToGenerate; i++) {
         student.homeworkGrades.push_back(disGrades(gen));
     }
     student.examGrade = disGrades(gen);
 }
 
-string getResults(vector<Student> students) {
+void writeResultsToFile(vector<Student> &students, string fileName) {
     cout << "Apskaiciuoti namu darbus vidurkiu spausk \"v\", mediana spausk \"m\": ";
     
     char action;
@@ -179,14 +231,16 @@ string getResults(vector<Student> students) {
     string finalGradeType = useAverage ? "Vid." : "Med.";
     stringstream ss;
     ss << setw(20) << left << "Pavarde" << setw(20) << "Vardas" << "Galutinis (" + finalGradeType + ")" << endl;
-    ss << string(55, '-') << endl;
+    ss << string(60, '-') << endl;
 
     string res = ss.str();
     for (int i = 0; i < students.size() - 1; i++) {
         res += getFormatedStudentData(students[i], useAverage) + "\n";
     } res += getFormatedStudentData(students[students.size() - 1], useAverage);
 
-    return res;
+    ofstream file(fileName);
+    file << res;
+    file.close();
 }
 
 string getFormatedStudentData(Student student, bool useAverage) {

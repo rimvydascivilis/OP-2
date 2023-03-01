@@ -28,6 +28,8 @@ using std::ifstream;
 using std::ofstream;
 using std::stringstream;
 using std::stof;
+using std::exception;
+using std::invalid_argument;
 
 struct Student {
     string name, surname;
@@ -37,10 +39,10 @@ struct Student {
 };
 
 void addStudents(vector<Student> &students);
-void addStudentsFromFile(string fileName, vector<Student> &students);
+void addStudentsFromFile(vector<Student> &students);
 void addStudentsFromSTDIN(vector<Student> &students);
 void enterStudentData(Student &student);
 void generateGrades(Student &student);
 void calculateFinalGrade(Student &student);
-string getResults(vector<Student> students);
 string getFormatedStudentData(Student student, bool useAverage);
+void writeResultsToFile(vector<Student> &students, string fileName);
