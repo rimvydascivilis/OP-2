@@ -36,3 +36,9 @@
 
 # txt files
 *.txt
+
+# build folder
+build
+
+# data folder
+data
