@@ -31,7 +31,7 @@ int main() {
     for (Student &student : students) {
         calculateFinalGrade(student, useAverage);
     }
-    
+
     int method = selectStudentSplittingMethod();
     if (method == 'A') {
         timer.reset();
@@ -41,11 +41,31 @@ int main() {
         timer.stop();
         cout << "Studentu rusiavimas uztruko: " << timer.getDuration() << "s" << endl;
         programDuration += timer.getDuration();
-
+    
         timer.reset();
         deque<Student> failedStudents;
         deque<Student> passedStudents;
         splitStudents1(students, passedStudents, failedStudents);
+        timer.stop();
+        cout << "Studentu surinkimas uztruko: " << timer.getDuration() << "s" << endl;
+        programDuration += timer.getDuration();
+        
+        timer.reset();
+        writeResultsToFile(students, failedStudents, useAverage);
+        timer.stop();
+        programDuration += timer.getDuration();
+    } else if(method == 'B') {
+        timer.reset();
+        sort(students.begin(), students.end(), [](Student &a, Student &b) {
+            return a.finalGrade > b.finalGrade;
+        });
+        timer.stop();
+        cout << "Studentu rusiavimas uztruko: " << timer.getDuration() << "s" << endl;
+        programDuration += timer.getDuration();
+    
+        timer.reset();
+        deque<Student> failedStudents;
+        splitStudents2(students, failedStudents);
         timer.stop();
         cout << "Studentu surinkimas uztruko: " << timer.getDuration() << "s" << endl;
         programDuration += timer.getDuration();
@@ -60,24 +80,23 @@ int main() {
             return a.finalGrade > b.finalGrade;
         });
         timer.stop();
-
         cout << "Studentu rusiavimas uztruko: " << timer.getDuration() << "s" << endl;
         programDuration += timer.getDuration();
-
+    
         timer.reset();
         deque<Student> failedStudents;
-        splitStudents2(students, failedStudents);
+        deque<Student> passedStudents;
+        splitStudents3(students, passedStudents, failedStudents);
         timer.stop();
         cout << "Studentu surinkimas uztruko: " << timer.getDuration() << "s" << endl;
         programDuration += timer.getDuration();
         
         timer.reset();
-        writeResultsToFile(students, failedStudents, useAverage);
+        writeResultsToFile(passedStudents, failedStudents, useAverage);
         timer.stop();
         programDuration += timer.getDuration();
     }
     
-
     cout << "Programos veikimo laikas (Be naudotojo ivesties laukimo laiko): " << programDuration << "s" << endl;
     return 0;
 }

@@ -148,7 +148,7 @@ string getFileNameFromInput() {
     string fileName;
 
     cout << "Failu sarasas:" << endl;
-    int errCode = system("ls data 2> /dev/null");
+    int errCode = system("ls data/studentai*.txt 2> /dev/null | cut -d'/' -f2");
     if (errCode != 0) {
         cout << "Nepavyko nuskaityti failu saraso" << endl;
     }

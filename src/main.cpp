@@ -32,8 +32,6 @@ int main() {
         calculateFinalGrade(student, useAverage);
     }
 
-
-    
     int method = selectStudentSplittingMethod();
     if (method == 'A') {
         timer.reset();
@@ -56,7 +54,7 @@ int main() {
         writeResultsToFile(students, failedStudents, useAverage);
         timer.stop();
         programDuration += timer.getDuration();
-    } else {
+    } else if(method == 'B') {
         timer.reset();
         sort(students.begin(), students.end(), [](Student &a, Student &b) {
             return a.finalGrade > b.finalGrade;
@@ -74,6 +72,27 @@ int main() {
         
         timer.reset();
         writeResultsToFile(students, failedStudents, useAverage);
+        timer.stop();
+        programDuration += timer.getDuration();
+    } else {
+        timer.reset();
+        sort(students.begin(), students.end(), [](Student &a, Student &b) {
+            return a.finalGrade > b.finalGrade;
+        });
+        timer.stop();
+        cout << "Studentu rusiavimas uztruko: " << timer.getDuration() << "s" << endl;
+        programDuration += timer.getDuration();
+    
+        timer.reset();
+        vector<Student> failedStudents;
+        vector<Student> passedStudents;
+        splitStudents3(students, passedStudents, failedStudents);
+        timer.stop();
+        cout << "Studentu surinkimas uztruko: " << timer.getDuration() << "s" << endl;
+        programDuration += timer.getDuration();
+        
+        timer.reset();
+        writeResultsToFile(passedStudents, failedStudents, useAverage);
         timer.stop();
         programDuration += timer.getDuration();
     }
