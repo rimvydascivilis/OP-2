@@ -1,4 +1,4 @@
-#include "utility.h"
+#include "student_splitting.h"
 
 int selectStudentSplittingMethod() {
     char method = 0;
@@ -18,7 +18,7 @@ void splitStudents1(vector<Student> &students, vector<Student> &passedStudents, 
     while (students.size()) {
         Student student = students.back();
         students.pop_back();
-        if (student.finalGrade < 5) {
+        if (student.getFinalGrade() < 5) {
             failedStudents.push_back(student);
         } else {
             passedStudents.push_back(student);
@@ -30,7 +30,7 @@ void splitStudents1(list<Student> &students, list<Student> &passedStudents, list
     while (students.size()) {
         Student student = students.back();
         students.pop_back();
-        if (student.finalGrade < 5) {
+        if (student.getFinalGrade() < 5) {
             failedStudents.push_back(student);
         } else {
             passedStudents.push_back(student);
@@ -42,7 +42,7 @@ void splitStudents1(deque<Student> &students, deque<Student> &passedStudents, de
     while (students.size()) {
         Student student = students.back();
         students.pop_back();
-        if (student.finalGrade < 5) {
+        if (student.getFinalGrade() < 5) {
             failedStudents.push_back(student);
         } else {
             passedStudents.push_back(student);
@@ -53,7 +53,7 @@ void splitStudents1(deque<Student> &students, deque<Student> &passedStudents, de
 void splitStudents2(vector<Student> &students, vector<Student> &failedStudents) {
     auto it = students.begin();
     while (it != students.end()) {
-        if (it->finalGrade < 5) {
+        if ((*it).getFinalGrade() < 5) {
             failedStudents.push_back(*it);
             it = students.erase(it);
         }else{
@@ -65,7 +65,7 @@ void splitStudents2(vector<Student> &students, vector<Student> &failedStudents) 
 void splitStudents2(list<Student> &students, list<Student> &failedStudents) {
     auto it = students.begin();
     while (it != students.end()) {
-        if (it->finalGrade < 5) {
+        if ((*it).getFinalGrade() < 5) {
             failedStudents.push_back(*it);
             it = students.erase(it);
         }else{
@@ -77,7 +77,7 @@ void splitStudents2(list<Student> &students, list<Student> &failedStudents) {
 void splitStudents2(deque<Student> &students, deque<Student> &failedStudents) {
     auto it = students.begin();
     while (it != students.end()) {
-        if (it->finalGrade < 5) {
+        if ((*it).getFinalGrade() < 5) {
             failedStudents.push_back(*it);
             it = students.erase(it);
         }else{
@@ -87,7 +87,7 @@ void splitStudents2(deque<Student> &students, deque<Student> &failedStudents) {
 }
 
 void splitStudents3(vector<Student> &students, vector<Student> &passedStudents, vector<Student> &failedStudents) {
-    auto pivot = partition(students.begin(), students.end(), [](const Student &student) { return student.finalGrade >= 5; });
+    auto pivot = partition(students.begin(), students.end(), [](const Student &student) { return student.getFinalGrade() >= 5; });
 
     copy(students.begin(), pivot, back_inserter(passedStudents));
     copy(pivot, students.end(), back_inserter(failedStudents));
@@ -95,7 +95,7 @@ void splitStudents3(vector<Student> &students, vector<Student> &passedStudents, 
 }
 
 void splitStudents3(list<Student> &students, list<Student> &passedStudents, list<Student> &failedStudents) {
-    auto pivot = partition(students.begin(), students.end(), [](const Student &student) { return student.finalGrade >= 5; });
+    auto pivot = partition(students.begin(), students.end(), [](const Student &student) { return student.getFinalGrade() >= 5; });
 
     copy(students.begin(), pivot, back_inserter(passedStudents));
     copy(pivot, students.end(), back_inserter(failedStudents));
@@ -103,7 +103,7 @@ void splitStudents3(list<Student> &students, list<Student> &passedStudents, list
 }
 
 void splitStudents3(deque<Student> &students, deque<Student> &passedStudents, deque<Student> &failedStudents) {
-    auto pivot = partition(students.begin(), students.end(), [](const Student &student) { return student.finalGrade >= 5; });
+    auto pivot = partition(students.begin(), students.end(), [](const Student &student) { return student.getFinalGrade() >= 5; });
 
     copy(students.begin(), pivot, back_inserter(passedStudents));
     copy(pivot, students.end(), back_inserter(failedStudents));

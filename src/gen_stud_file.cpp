@@ -30,17 +30,15 @@ void createFileWithStudents(string filename, int fileSize, int homeworkCount) {
 
     for (int i = 0; i < fileSize; i++) {
         ss.str("");
-        Student student;
-        student.name = "Vardas" + to_string(i+1);
-        student.surname = "Pavarde" + to_string(i+1);
+        Student student("Vardas" + to_string(i+1), "Pavarde" + to_string(i+1));
 
-        generateGrades(student, homeworkCount, &gen);
+        student.generateGrades(homeworkCount, &gen);
 
-        ss << setw(30) << left << student.name << setw(30) << student.surname;
-        for (int j = 0; j < homeworkCount; j++) {
-            ss << setw(20) << student.homeworkGrades.at(j);
+        ss << setw(30) << left << student.getName() << setw(30) << student.getSurname();
+        for (auto grade : student.getHomeworkGrades()) {
+            ss << setw(20) << grade;
         }
-        ss << setw(20) << student.examGrade << endl;
+        ss << setw(20) << student.getExamGrade() << endl;
         output += ss.str();
     }
     ofstream file(filename);

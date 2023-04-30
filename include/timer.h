@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TIMER_H
+#define TIMER_H
 
 #include <chrono>
 
@@ -25,3 +26,5 @@ public:
         return duration_cast<milliseconds>(end - start).count() / 1000.0;
     }
 };
+
+#endif

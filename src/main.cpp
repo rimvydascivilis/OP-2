@@ -1,11 +1,11 @@
 #include "student_io.h"
+#include "student.h"
 #include "gen_stud_file.h"
 #include "timer.h"
-#include "utility.h"
+#include "student_splitting.h"
 
 int main() {
     vector<Student> students;
-    string results;
     double programDuration = 0;
     Timer timer;
 
@@ -29,15 +29,13 @@ int main() {
 
     bool useAverage = getFinalGradeCalculationMethod();
     for (Student &student : students) {
-        calculateFinalGrade(student, useAverage);
+        student.calculateFinalGrade(useAverage);
     }
 
     int method = selectStudentSplittingMethod();
     if (method == 'A') {
         timer.reset();
-        sort(students.begin(), students.end(), [](Student &a, Student &b) {
-            return a.finalGrade < b.finalGrade;
-        });
+        sort(students.begin(), students.end(), compareFinalGradeAscending);
         timer.stop();
         cout << "Studentu rusiavimas uztruko: " << timer.getDuration() << "s" << endl;
         programDuration += timer.getDuration();
@@ -51,14 +49,12 @@ int main() {
         programDuration += timer.getDuration();
         
         timer.reset();
-        writeResultsToFile(students, failedStudents, useAverage);
+        writeResultsToFile(passedStudents, failedStudents, useAverage);
         timer.stop();
         programDuration += timer.getDuration();
     } else if(method == 'B') {
         timer.reset();
-        sort(students.begin(), students.end(), [](Student &a, Student &b) {
-            return a.finalGrade > b.finalGrade;
-        });
+        sort(students.begin(), students.end(), compareFinalGradeDescending);
         timer.stop();
         cout << "Studentu rusiavimas uztruko: " << timer.getDuration() << "s" << endl;
         programDuration += timer.getDuration();
@@ -76,9 +72,7 @@ int main() {
         programDuration += timer.getDuration();
     } else {
         timer.reset();
-        sort(students.begin(), students.end(), [](Student &a, Student &b) {
-            return a.finalGrade > b.finalGrade;
-        });
+        sort(students.begin(), students.end(), compareFinalGradeDescending);
         timer.stop();
         cout << "Studentu rusiavimas uztruko: " << timer.getDuration() << "s" << endl;
         programDuration += timer.getDuration();

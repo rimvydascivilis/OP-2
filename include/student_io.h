@@ -37,7 +37,7 @@ string cleanGradeString(string grade);
 void addStudentsFromSTDIN(vector<Student> &students);
 void addStudentsFromSTDIN(list<Student> &students);
 void addStudentsFromSTDIN(deque<Student> &students);
-void enterStudentInformation(Student &student);
+Student getStudentFromSTDIN();
 bool getFinalGradeCalculationMethod();
 template <typename T>
 void writeResultsToFile(T &passedStuds, T &failedStuds, bool useAverage){

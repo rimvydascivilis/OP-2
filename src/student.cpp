@@ -1,21 +1,29 @@
 #include "student.h"
 
-void calculateFinalGrade(Student& student, bool useAverage) {
+void Student::calculateFinalGrade(bool useAverage) {
     if (useAverage) {
-        double sum = accumulate(student.homeworkGrades.begin(), student.homeworkGrades.end(), 0.0);
-        double average = sum / student.homeworkGrades.size();
-        student.finalGrade = average * 0.4 + student.examGrade * 0.6;
+        calculateFinalGradeAverage();
     } else {
-        vector<float> homeworkGrades = student.homeworkGrades;
-        sort(homeworkGrades.begin(), homeworkGrades.end());
-        size_t n = homeworkGrades.size();
-        float median = (n % 2 == 0) ? (homeworkGrades[n / 2 - 1] + homeworkGrades[n / 2]) / 2.0f
-                                     : homeworkGrades[n / 2];
-        student.finalGrade = median * 0.4f + student.examGrade * 0.6f;
+        calculateFinalGradeMedian();
     }
 }
 
-void generateGrades(Student& student, int gradesToGenerate, mt19937 *gen) {
+void Student::calculateFinalGradeAverage() {
+    double sum = accumulate(homeworkGrades.begin(), homeworkGrades.end(), 0.0);
+    double average = sum / homeworkGrades.size();
+    finalGrade = average * 0.4 + examGrade * 0.6;
+}
+
+void Student::calculateFinalGradeMedian() {
+    vector<float> hw = homeworkGrades;
+    sort(hw.begin(), hw.end());
+    size_t n = hw.size();
+    float median = (n % 2 == 0) ? (hw[n / 2 - 1] + hw[n / 2]) / 2.0f
+                                    : hw[n / 2];
+    finalGrade = median * 0.4f + examGrade * 0.6f;
+}
+
+void Student::generateGrades(int gradesToGenerate, mt19937 *gen) {
     if (gen == nullptr) {
         static random_device rd;
         static mt19937 eng(rd());
@@ -23,9 +31,23 @@ void generateGrades(Student& student, int gradesToGenerate, mt19937 *gen) {
     }
 
     uniform_int_distribution<int> disGrades(0, 10);
-    student.homeworkGrades.resize(gradesToGenerate);
+    homeworkGrades.resize(gradesToGenerate);
     for (int i = 0; i < gradesToGenerate; i++) {
-        student.homeworkGrades[i] = disGrades(*gen);
+        homeworkGrades[i] = disGrades(*gen);
     }
-    student.examGrade = disGrades(*gen);
+    examGrade = disGrades(*gen);
+}
+
+ostream& operator<<(ostream &os, const Student &s) {
+    os << setw(20) << left << s.getSurname() << setw(20) << s.getName() <<
+    setprecision(2) << fixed << s.getFinalGrade();
+    return os;
+}
+
+bool compareFinalGradeAscending(const Student &a, const Student &b) {
+    return a.getFinalGrade() < b.getFinalGrade();
+}
+
+bool compareFinalGradeDescending(const Student &a, const Student &b) {
+    return a.getFinalGrade() > b.getFinalGrade();
 }

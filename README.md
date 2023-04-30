@@ -109,6 +109,19 @@ Vardenis1 Pavardenis1 10 9 8 7 6 5
 | 1000000, 10                                | 0.208                                          | -                                              | 0.587                                          | 192.828125                             | -                                      | 308.05859375                           |
 | 10000000, 10                               | 3.063                                          | -                                              | 10.413                                         | 1805.7734375                           | -                                      | 3025.02734375                          |
 
+### Strucktūros ir klasės testavimas su vector konteineriu, A strategija, 3 optimizacijos lygis:
+| Failo dydis ir namų darbų skaičius | Struktūros trukmė, s | Klasės trukmė, s |
+|------------------------------------|----------------------|------------------|
+| 100000 , 10                        | 0.369                | 0.319            |
+| 1000000, 10                        | 3.927                | 3.194            |
+
+### Optimizacijos lygiiu testavimas su vector konteineriu, A strategija, 1000000 studentų, 10 namų darbų:
+| Optimizacijos būdas | Trukmė, s | Atmintis, MB |
+|---------------------|-----------|--------------|
+| 1                   | 3.163     | 0.139216     |
+| 2                   | 3.14      | 0.140512     |
+| 3                   | 3.124s    | 0.156728     |
+
 ## Testuota naudojant:
 - Ubuntu 20.04
 - g++ 9.4.0
@@ -145,3 +158,17 @@ Vardenis1 Pavardenis1 10 9 8 7 6 5
         - Strategija, naudojanti mažiausią atminties kiekį: A
         - Strategija, naudojanti vidutinį atminties kiekį: B
         - Strategija, naudojanti daugiausią atminties kiekį: C
+- [v1.1](https://github.com/rimvydascivilis/OP-2/releases/tag/v1.1.0):
+    - Programa perdaryta, kad studentai būtų saugomi klasėje, o ne struktūroje
+    - Programos testavimas su struktūra ir klasę:
+        - Greičiausia: klasė
+        - Lėčiausia: struktūra
+    - Optimizacijos lygių testavimas:
+        - Veikimo greitis:
+            - Greičiausias: 3
+            - Vidutinis: 2
+            - Lėčiausias: 1
+        - Programos dydis:
+            - Mažiausias: 1
+            - Vidutinis: 2
+            - Didžiausias: 3
