@@ -38,10 +38,46 @@ void Student::generateGrades(int gradesToGenerate, mt19937 *gen) {
     examGrade = disGrades(*gen);
 }
 
+istream &operator>>(istream &is, Student &s) {
+    string line;
+    getline(is, line);
+    stringstream ss(line);
+    ss >> s.name >> s.surname;
+    float grade;
+    while (ss >> grade) {
+        s.homeworkGrades.push_back(grade);
+    }
+    s.examGrade = s.homeworkGrades.back();
+    s.homeworkGrades.pop_back();
+    return is;
+}
+
 ostream& operator<<(ostream &os, const Student &s) {
     os << setw(20) << left << s.getSurname() << setw(20) << s.getName() <<
     setprecision(2) << fixed << s.getFinalGrade();
     return os;
+}
+
+Student &Student::operator=(const Student &s) {
+    if (this != &s) {
+        name = s.name;
+        surname = s.surname;
+        homeworkGrades = s.homeworkGrades;
+        examGrade = s.examGrade;
+        finalGrade = s.finalGrade;
+    }
+    return *this;
+}
+
+Student &Student::operator=(Student &&s) {
+    if (this != &s) {
+        name = s.name;
+        surname = s.surname;
+        homeworkGrades = move(s.homeworkGrades);
+        examGrade = s.examGrade;
+        finalGrade = s.finalGrade;
+    }
+    return *this;
 }
 
 bool compareFinalGradeAscending(const Student &a, const Student &b) {

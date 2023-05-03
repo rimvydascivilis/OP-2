@@ -25,11 +25,13 @@ using std::streamsize;
 using std::list;
 using std::deque;
 using std::ostream;
+using std::istream;
 using std::stringstream;
 using std::setw;
 using std::left;
 using std::setprecision;
 using std::fixed;
+using std::move;
 
 class Student {
 private:
@@ -45,6 +47,11 @@ public:
     Student(): name(""), surname(""), homeworkGrades(), examGrade(0), finalGrade(0.0) {}
     Student(string name, string surname) : name(name), surname(surname), homeworkGrades(), examGrade(0), finalGrade(0.0) {}
     Student(string name, string surname, vector<float> homeworkGrades, int examGrade) : name(name), surname(surname), homeworkGrades(homeworkGrades), examGrade(examGrade), finalGrade(0.0) {}
+    Student(const Student &s) : name(s.name), surname(s.surname), homeworkGrades(s.homeworkGrades), examGrade(s.examGrade), finalGrade(s.finalGrade) {}
+    Student(Student &&s) : name(s.name), surname(s.surname), examGrade(s.examGrade), finalGrade(s.finalGrade) {
+        homeworkGrades = move(s.homeworkGrades);
+    }
+    ~Student() { homeworkGrades.clear(); }
 
     inline string getName() const { return name; }
     inline string getSurname() const { return surname; }
@@ -57,6 +64,9 @@ public:
     void calculateFinalGrade(bool useAverage);
 
     friend ostream& operator<<(ostream &os, const Student &s);
+    friend istream& operator>>(istream &is, Student &s);
+    Student &operator=(const Student &s);
+    Student &operator=(Student &&s);
 };
 
 bool compareFinalGradeAscending(const Student &a, const Student &b);
