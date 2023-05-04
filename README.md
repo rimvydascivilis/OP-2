@@ -172,3 +172,5 @@ Vardenis1 Pavardenis1 10 9 8 7 6 5
             - Mažiausias: 1
             - Vidutinis: 2
             - Didžiausias: 3
+- [v1.2](https://github.com/rimvydascivilis/OP-2/releases/tag/v1.2.0):
+    - Studentas klasei pritaikyta Rule of Five
