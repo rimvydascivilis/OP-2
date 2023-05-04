@@ -174,3 +174,5 @@ Vardenis1 Pavardenis1 10 9 8 7 6 5
             - Didžiausias: 3
 - [v1.2](https://github.com/rimvydascivilis/OP-2/releases/tag/v1.2.0):
     - Studentas klasei pritaikyta Rule of Five
+- [v1.5](https://github.com/rimvydascivilis/OP-2/releases/tag/v1.5.0):
+    - Padaryta abstrakti bazinė klasė *Human* ir *Student* klasė paveldi *Human* klasę.
