@@ -15,6 +15,7 @@ int main() {
     Student stud5(std::move(stud2));
 
     cout << stud5 << endl;
+    stud5.sayHello();
 
 
     // vector<Student> students;
