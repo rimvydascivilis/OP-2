@@ -38,11 +38,17 @@ void Student::generateGrades(int gradesToGenerate, mt19937 *gen) {
     examGrade = disGrades(*gen);
 }
 
+void Student::sayHello() {
+    cout << "Hello, I'm a student, " << getName() << " " << getSurname() << "!" << endl;
+}
+
 istream &operator>>(istream &is, Student &s) {
-    string line;
+    string line, name, surname;
     getline(is, line);
     stringstream ss(line);
-    ss >> s.name >> s.surname;
+    ss >> name >> surname;
+    s.setName(name);
+    s.setSurname(surname);
     float grade;
     while (ss >> grade) {
         s.homeworkGrades.push_back(grade);
@@ -60,8 +66,8 @@ ostream& operator<<(ostream &os, const Student &s) {
 
 Student &Student::operator=(const Student &s) {
     if (this != &s) {
-        name = s.name;
-        surname = s.surname;
+        setName(s.getName());
+        setSurname(s.getSurname());
         homeworkGrades = s.homeworkGrades;
         examGrade = s.examGrade;
         finalGrade = s.finalGrade;
@@ -71,8 +77,8 @@ Student &Student::operator=(const Student &s) {
 
 Student &Student::operator=(Student &&s) {
     if (this != &s) {
-        name = s.name;
-        surname = s.surname;
+        setName(s.getName());
+        setSurname(s.getSurname());
         homeworkGrades = move(s.homeworkGrades);
         examGrade = s.examGrade;
         finalGrade = s.finalGrade;

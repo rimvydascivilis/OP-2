@@ -172,3 +172,11 @@ Vardenis1 Pavardenis1 10 9 8 7 6 5
             - Mažiausias: 1
             - Vidutinis: 2
             - Didžiausias: 3
+- [v1.2](https://github.com/rimvydascivilis/OP-2/releases/tag/v1.2.0):
+    - Studentas klasei pritaikyta Rule of Five
+- [v1.5](https://github.com/rimvydascivilis/OP-2/releases/tag/v1.5.0):
+    - Padaryta abstrakti bazinė klasė *Human* ir *Student* klasė paveldi *Human* klasę.
+- [v2.0](https://github.com/rimvydascivilis/OP-2/releases/tag/v2.0.0):
+    - Pridėta:
+        - unit testai, naudojant Google Test Framework
+        - Doxygen dokumentacija
