@@ -1,6 +1,7 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
+#include "human.h"
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -32,10 +33,10 @@ using std::left;
 using std::setprecision;
 using std::fixed;
 using std::move;
+using std::endl;
 
-class Student {
+class Student: public Human {
 private:
-    string name, surname;
     vector<float> homeworkGrades;
     int examGrade;
     double finalGrade;
@@ -44,17 +45,15 @@ private:
     void calculateFinalGradeMedian();
 
 public:
-    Student(): name(""), surname(""), homeworkGrades(), examGrade(0), finalGrade(0.0) {}
-    Student(string name, string surname) : name(name), surname(surname), homeworkGrades(), examGrade(0), finalGrade(0.0) {}
-    Student(string name, string surname, vector<float> homeworkGrades, int examGrade) : name(name), surname(surname), homeworkGrades(homeworkGrades), examGrade(examGrade), finalGrade(0.0) {}
-    Student(const Student &s) : name(s.name), surname(s.surname), homeworkGrades(s.homeworkGrades), examGrade(s.examGrade), finalGrade(s.finalGrade) {}
-    Student(Student &&s) : name(s.name), surname(s.surname), examGrade(s.examGrade), finalGrade(s.finalGrade) {
+    Student(): Human(), homeworkGrades(), examGrade(0), finalGrade(0.0) {}
+    Student(string name, string surname): Human(name, surname), homeworkGrades(), examGrade(0), finalGrade(0.0) {}
+    Student(string name, string surname, vector<float> homeworkGrades, int examGrade): Human(name, surname), homeworkGrades(homeworkGrades), examGrade(examGrade), finalGrade(0.0) {}
+    Student(const Student &s) : Human(s.getName(), s.getSurname()), homeworkGrades(s.homeworkGrades), examGrade(s.examGrade), finalGrade(s.finalGrade) {}
+    Student(Student &&s): Human(s.getName(), s.getSurname()), examGrade(s.examGrade), finalGrade(s.finalGrade) {
         homeworkGrades = move(s.homeworkGrades);
     }
-    ~Student() { homeworkGrades.clear(); }
+    ~Student() override { homeworkGrades.clear(); }
 
-    inline string getName() const { return name; }
-    inline string getSurname() const { return surname; }
     inline vector<float> getHomeworkGrades() const { return homeworkGrades; }
     inline int getExamGrade() const { return examGrade; }
     inline double getFinalGrade() const { return finalGrade; }
@@ -62,6 +61,7 @@ public:
     
     void generateGrades(int gradesToGenerate, mt19937 *gen = nullptr);
     void calculateFinalGrade(bool useAverage);
+    void sayHello() override;
 
     friend ostream& operator<<(ostream &os, const Student &s);
     friend istream& operator>>(istream &is, Student &s);
