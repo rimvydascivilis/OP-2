@@ -48,9 +48,7 @@ public:
     Student(string name, string surname) : name(name), surname(surname), homeworkGrades(), examGrade(0), finalGrade(0.0) {}
     Student(string name, string surname, vector<float> homeworkGrades, int examGrade) : name(name), surname(surname), homeworkGrades(homeworkGrades), examGrade(examGrade), finalGrade(0.0) {}
     Student(const Student &s) : name(s.name), surname(s.surname), homeworkGrades(s.homeworkGrades), examGrade(s.examGrade), finalGrade(s.finalGrade) {}
-    Student(Student &&s) : name(s.name), surname(s.surname), examGrade(s.examGrade), finalGrade(s.finalGrade) {
-        homeworkGrades = move(s.homeworkGrades);
-    }
+    Student(Student &&s);
     ~Student() { homeworkGrades.clear(); }
 
     inline string getName() const { return name; }

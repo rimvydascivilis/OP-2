@@ -1,5 +1,20 @@
 #include "student.h"
 
+Student::Student(Student &&s) {
+    name = move(s.name);
+    surname = move(s.surname);
+    examGrade = move(s.examGrade);
+    finalGrade = move(s.finalGrade);
+    homeworkGrades = move(s.homeworkGrades);
+
+    s.name = "";
+    s.surname = "";
+    s.examGrade = 0;
+    s.finalGrade = 0.0;
+    s.homeworkGrades.clear();
+    s.homeworkGrades.shrink_to_fit();
+}
+
 void Student::calculateFinalGrade(bool useAverage) {
     if (useAverage) {
         calculateFinalGradeAverage();
@@ -76,6 +91,13 @@ Student &Student::operator=(Student &&s) {
         homeworkGrades = move(s.homeworkGrades);
         examGrade = s.examGrade;
         finalGrade = s.finalGrade;
+
+        s.name = "";
+        s.surname = "";
+        s.examGrade = 0;
+        s.finalGrade = 0.0;
+        s.homeworkGrades.clear();
+        s.homeworkGrades.shrink_to_fit();
     }
     return *this;
 }
