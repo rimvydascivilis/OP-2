@@ -22,6 +22,13 @@
     - `geriStudentai.txt` (galutinis >= 5)
     - `blogiStudentai.txt` (galutinis < 5)
 
+## Programos įdiegimas
+- Atsisiųskite programos versiją iš [Releases](https://github.com/rimvydascivilis/OP-2/releases/tag/v2.0.1)
+- Įdiekite naudodami dpkg įrankį `sudo dpkg -i OP-amd64-2.0.deb`
+
+## Programos išinstaliavimas
+- Išinstaliuokite naudodami dpkg įrankį `sudo dpkg -r OP`
+
 ## Programos paleidimas
 - Repozitorijos klonavimas `git clone https://github.com/rimvydascivilis/OP.git`
 - Direktorijos pakeitimas `cd OP`

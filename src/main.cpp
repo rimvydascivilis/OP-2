@@ -5,7 +5,7 @@
 #include "student_splitting.h"
 
 int main() {
-    vector<Student> students;
+  vector<Student> students;
     double programDuration = 0;
     Timer timer;
 
