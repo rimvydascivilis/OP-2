@@ -10,6 +10,7 @@
 #include <limits>
 
 #include "student.h"
+#include "Vector.h"
 #include "timer.h"
 
 using std::cout;
@@ -25,6 +26,7 @@ using std::fixed;
 using std::ofstream;
 
 char getActionFromInput();
+void addStudentsFromFile(Vector<Student> &students, string fileName);
 void addStudentsFromFile(vector<Student> &students, string fileName);
 void addStudentsFromFile(list<Student> &students, string fileName);
 void addStudentsFromFile(deque<Student> &students, string fileName);
@@ -34,6 +36,7 @@ bool fileExists(const string& fileName);
 bool fileEmpty(string fileName);
 Student parseLine(const string& line);
 string cleanGradeString(string grade);
+void addStudentsFromSTDIN(Vector<Student> &students);
 void addStudentsFromSTDIN(vector<Student> &students);
 void addStudentsFromSTDIN(list<Student> &students);
 void addStudentsFromSTDIN(deque<Student> &students);
@@ -55,6 +58,7 @@ void writeResultsToFile(T &passedStuds, T &failedStuds, bool useAverage){
 
     cout << "Blogu studentu irasymas i faila uztruko: " << timer.getDuration() << "s" << endl;
 }
+void writeResultsToFile(Vector<Student>& students, string fileName, bool useAverage);
 void writeResultsToFile(vector<Student>& students, string fileName, bool useAverage);
 void writeResultsToFile(list<Student> &students, string fileName, bool useAverage);
 void writeResultsToFile(deque<Student> &students, string fileName, bool useAverage);

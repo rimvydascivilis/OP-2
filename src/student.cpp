@@ -30,7 +30,7 @@ void Student::calculateFinalGradeAverage() {
 }
 
 void Student::calculateFinalGradeMedian() {
-    vector<float> hw = homeworkGrades;
+    Vector<float> hw = homeworkGrades;
     sort(hw.begin(), hw.end());
     size_t n = hw.size();
     float median = (n % 2 == 0) ? (hw[n / 2 - 1] + hw[n / 2]) / 2.0f

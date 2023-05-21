@@ -2,16 +2,27 @@
 
 int selectStudentSplittingMethod() {
     char method = 0;
-    while (method != 'A' && method != 'B' && method != 'C') {
+    while (method != 'A' && method != 'B') {
         cout << "Pasirinkite studentu surinkimo metoda:" << std::endl;
         cout << "A pop_back" << std::endl;
         cout << "B remove ir copy" << std::endl;
-        cout << "C stable_partition" << std::endl;
         cout << "Metodas: ";
         cin >> method;
         method = toupper(method);
     }
     return method;
+}
+
+void splitStudents1(Vector<Student> &students, Vector<Student> &passedStudents, Vector<Student> &failedStudents) {
+    while (students.size()) {
+        Student student = students.back();
+        students.pop_back();
+        if (student.getFinalGrade() < 5) {
+            failedStudents.push_back(student);
+        } else {
+            passedStudents.push_back(student);
+        }
+    }
 }
 
 void splitStudents1(vector<Student> &students, vector<Student> &passedStudents, vector<Student> &failedStudents) {
@@ -46,6 +57,18 @@ void splitStudents1(deque<Student> &students, deque<Student> &passedStudents, de
             failedStudents.push_back(student);
         } else {
             passedStudents.push_back(student);
+        }
+    }
+}
+
+void splitStudents2(Vector<Student> &students, Vector<Student> &failedStudents) {
+    auto it = students.begin();
+    while (it != students.end()) {
+        if ((*it).getFinalGrade() < 5) {
+            failedStudents.push_back(*it);
+            it = students.erase(it);
+        }else{
+            it++;
         }
     }
 }

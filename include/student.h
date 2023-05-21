@@ -2,6 +2,7 @@
 #define STUDENT_H
 
 #include "human.h"
+#include "Vector.h"
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -37,7 +38,7 @@ using std::endl;
 
 class Student: public Human {
 private:
-    vector<float> homeworkGrades;
+    Vector<float> homeworkGrades;
     int examGrade;
     double finalGrade;
 
@@ -47,12 +48,12 @@ private:
 public:
     Student(): Human(), homeworkGrades(), examGrade(0), finalGrade(0.0) {}
     Student(string name, string surname): Human(name, surname), homeworkGrades(), examGrade(0), finalGrade(0.0) {}
-    Student(string name, string surname, vector<float> homeworkGrades, int examGrade): Human(name, surname), homeworkGrades(homeworkGrades), examGrade(examGrade), finalGrade(0.0) {}
+    Student(string name, string surname, Vector<float> homeworkGrades, int examGrade): Human(name, surname), homeworkGrades(homeworkGrades), examGrade(examGrade), finalGrade(0.0) {}
     Student(const Student &s) : Human(s.getName(), s.getSurname()), homeworkGrades(s.homeworkGrades), examGrade(s.examGrade), finalGrade(s.finalGrade) {}
     Student(Student &&s);
     ~Student() override { homeworkGrades.clear(); }
 
-    inline vector<float> getHomeworkGrades() const { return homeworkGrades; }
+    inline Vector<float> getHomeworkGrades() const { return homeworkGrades; }
     inline int getExamGrade() const { return examGrade; }
     inline double getFinalGrade() const { return finalGrade; }
     inline int getHomeworkCount() const { return homeworkGrades.size(); };

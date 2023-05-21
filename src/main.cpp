@@ -3,9 +3,10 @@
 #include "gen_stud_file.h"
 #include "timer.h"
 #include "student_splitting.h"
+#include "Vector.h"
 
 int main() {
-  vector<Student> students;
+    Vector<Student> students;
     double programDuration = 0;
     Timer timer;
 
@@ -41,8 +42,8 @@ int main() {
         programDuration += timer.getDuration();
     
         timer.reset();
-        vector<Student> failedStudents;
-        vector<Student> passedStudents;
+        Vector<Student> failedStudents;
+        Vector<Student> passedStudents;
         splitStudents1(students, passedStudents, failedStudents);
         timer.stop();
         cout << "Studentu surinkimas uztruko: " << timer.getDuration() << "s" << endl;
@@ -50,24 +51,6 @@ int main() {
         
         timer.reset();
         writeResultsToFile(passedStudents, failedStudents, useAverage);
-        timer.stop();
-        programDuration += timer.getDuration();
-    } else if(method == 'B') {
-        timer.reset();
-        sort(students.begin(), students.end(), compareFinalGradeDescending);
-        timer.stop();
-        cout << "Studentu rusiavimas uztruko: " << timer.getDuration() << "s" << endl;
-        programDuration += timer.getDuration();
-    
-        timer.reset();
-        vector<Student> failedStudents;
-        splitStudents2(students, failedStudents);
-        timer.stop();
-        cout << "Studentu surinkimas uztruko: " << timer.getDuration() << "s" << endl;
-        programDuration += timer.getDuration();
-        
-        timer.reset();
-        writeResultsToFile(students, failedStudents, useAverage);
         timer.stop();
         programDuration += timer.getDuration();
     } else {
@@ -78,15 +61,14 @@ int main() {
         programDuration += timer.getDuration();
     
         timer.reset();
-        vector<Student> failedStudents;
-        vector<Student> passedStudents;
-        splitStudents3(students, passedStudents, failedStudents);
+        Vector<Student> failedStudents;
+        splitStudents2(students, failedStudents);
         timer.stop();
         cout << "Studentu surinkimas uztruko: " << timer.getDuration() << "s" << endl;
         programDuration += timer.getDuration();
         
         timer.reset();
-        writeResultsToFile(passedStudents, failedStudents, useAverage);
+        writeResultsToFile(students, failedStudents, useAverage);
         timer.stop();
         programDuration += timer.getDuration();
     }

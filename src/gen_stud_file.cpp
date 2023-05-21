@@ -1,7 +1,7 @@
 #include "gen_stud_file.h"
 
 void gen_stud_file(int homeworkCount) {
-    vector<int> fileSizes = {1000, 10000, 100000, 1000000, 10000000};
+    vector<int> fileSizes = {1000, 10000, 100000, 1000000, 100000000};
     Timer timer;
     double duration;
     system("mkdir -p data");

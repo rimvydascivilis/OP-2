@@ -129,6 +129,47 @@ Vardenis1 Pavardenis1 10 9 8 7 6 5
 | 2                   | 3.14      | 0.140512     |
 | 3                   | 3.124s    | 0.156728     |
 
+## Mano Vector
+### Funkcionalumas:
+- Vector dydzio gavimas
+    ```cpp
+    vector.size();
+    ```
+- Vector elemento pridėjimas į pabaigą
+    ```cpp
+    vector.push_back(element);
+    ```
+- Vector elemento ištrynimas iš pabaigos
+    ```cpp
+    vector.pop_back();
+    ```
+- Vector dydžio pakeitimas
+    ```cpp
+    vector.resize(size);
+    ```
+- Vector elemento gavimas
+    ```cpp
+    vector.at(index);
+    ```
+### Spartos testavimas:
+#### int tipo elementų pildymas
+| Dydis elementu | std:vector pildymo laikas (s) | Vector pildymo laikas (s) |
+|----------------|-------------------------------|---------------------------|
+| 10000          | 0                             | 0                         |
+| 100000         | 0                             | 0                         |
+| 1000000        | 0.005                         | 0.004                     |
+| 10000000       | 0.052                         | 0.03                      |
+| 100000000      | 0.318                         | 0.251                     |
+
+#### Atminties perskirstymai užpildant 100000000 elementų
+| std:vector perskirstymai | Vector perskirstymai |
+|--------------------------|----------------------|
+| 28                       | 28                   |
+#### Programos veikimo laikas su 100000 studentų
+| std:vector lasikas (s) | Vector lasikas (s) |
+|------------------------|--------------------|
+| 0.275                  | 0.283              |
+
 ## Testuota naudojant:
 - Ubuntu 20.04
 - g++ 9.4.0
